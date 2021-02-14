@@ -1,7 +1,6 @@
 """ Onmt NMT Model base class definition """
 import torch.nn as nn
 import torch
-import pdb
 
 def user_embedding(num_embeddings, embedding_dim, padding_idx=None):
     m = nn.Embedding(num_embeddings, embedding_dim, padding_idx=padding_idx)
@@ -56,11 +55,20 @@ class NMTModel(nn.Module):
         tgt = tgt[:-1]  # exclude last target from inputs
         cls_state= None
         if self.opt.user_cls or self.opt.dom_cls:
-            cls = torch.LongTensor([101,0]).unsqueeze(0).unsqueeze(0).expand(-1,src.shape[1],-1).cuda()
-            src = torch.cat((cls,src),0)
-            pre_enc_state, memory_bank, lengths = self.encoder(src, uid, lengths, **kwargs)
-            enc_state = pre_enc_state[:,1:,:]
-            cls_state = pre_enc_state[:,0,:]
+            if self.opt.encoder_freeze:
+                with torch.no_grad():
+                    cls = torch.LongTensor([101,0]).unsqueeze(0).unsqueeze(0).expand(-1,src.shape[1],-1).cuda()
+                    src = torch.cat((cls,src),0)
+                    pre_enc_state, memory_bank, lengths = self.encoder(src, uid, lengths, **kwargs)
+                    enc_state = pre_enc_state[:,1:,:]
+                    cls_state = pre_enc_state[:,0,:]
+            else:
+                    cls = torch.LongTensor([101,0]).unsqueeze(0).unsqueeze(0).expand(-1,src.shape[1],-1).cuda()
+                    src = torch.cat((cls,src),0)
+                    pre_enc_state, memory_bank, lengths = self.encoder(src, uid, lengths, **kwargs)
+                    enc_state = pre_enc_state[:,1:,:]
+                    cls_state = pre_enc_state[:,0,:]
+                
         else:
             if self.opt.encoder_freeze:
                 with torch.no_grad():
@@ -70,13 +78,8 @@ class NMTModel(nn.Module):
         if bptt is False:
             self.decoder.init_state(src, memory_bank, enc_state)
 
-        if self.opt.user_cls == False:
-            dec_out, attns = self.decoder(tgt, memory_bank,
-                                          memory_lengths=lengths, uid=uid)
-        else:
-            with torch.no_grad():
-                dec_out, attns = self.decoder(tgt, memory_bank,
-                                          memory_lengths=lengths)       
+        dec_out, attns = self.decoder(tgt, memory_bank,
+                                      memory_lengths=lengths)
         if self.opt.dom_avg_pool:
             return dec_out, attns, enc_state
         
@@ -104,9 +107,8 @@ class Domain_CLS_ENC(nn.Module):
         cls = torch.LongTensor([101,0]).unsqueeze(0).unsqueeze(0).expand(-1,src.shape[1],-1).cuda()
         src = torch.cat((cls,src),0)
         pre_enc_state, memory_bank, lengths = self.encoder(src, None, lengths, **kwargs)
-
         enc_state = pre_enc_state[:,1:,:]
-        cls_state = pre_enc_state[:,0,:]        
+        cls_state = pre_enc_state[:,0,:]               
 
         return None, None, cls_state
  
