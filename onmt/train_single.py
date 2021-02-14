@@ -43,22 +43,6 @@ def configure_process(opt, device_id):
 def main(opt, device_id):
     # NOTE: It's important that ``opt`` has been validated and updated
     # at this point.
-#     import pdb
-#     _check_ = torch.load("/home/irteam/users/kaist/ginalee/clean_data/baselines/9-domain5-185pre_step_2500.pt")
-#     model_encoder = [i for i in _check_['model'].keys() if "encoder" in i.split(".")]
-#     encoder = {}
-#     pdb.set_trace()
-#     for i, param in enumerate(model_encoder):
-#         if i == 0:
-#             encoder['embeddings.word_embeddings.weight'] = _check_['model'][param]
-#             continue
-#         param_ = ".".join(param.split(".")[1:])
-# #         if param.split(".")[1] == 'encoder':
-# #             param_ = ".".join(param.split(".")[2:])
-# #         else:
-# #             param_ = ".".join(param.split(".")[1:])
-#         encoder[param_] = _check_['model'][param]
-#     pdb.set_trace()
     
     configure_process(opt, device_id)
     init_logger(opt.log_file)
