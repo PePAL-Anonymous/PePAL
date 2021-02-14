@@ -1,6 +1,6 @@
 # PePAL: Personalized Post-editing via Adversarial Learning using Cluster Label
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/75927860/102007704-b22e2e80-3d6e-11eb-9b02-9cba04759b4b.png">
+  <img src="https://user-images.githubusercontent.com/75927860/107871432-cdd7c180-6ee4-11eb-9414-dc1d10844827.png">
 </p>
 We propose PePAL, a simple yet effective model that utilizes cluster labels obtained from a pre-trained language model in an adversarial manner.
 
