@@ -73,8 +73,6 @@ data: 'PATH_FOR_DATA'
 pretrain_from: 'APE_PRETRAINED_MODEL'
 
 # Domain
-user_len: 30
-domain_cls_enc: False
 domain_adv: True
 domain_classify: True
 dom_cls: True
@@ -84,11 +82,11 @@ beam_size: 3
 
 train_steps: 50000
 start_decay_steps: 50000
-valid_steps: 2000
-save_checkpoint_steps: 2000
-keep_checkpoint: 30
+valid_steps: 250
+save_checkpoint_steps: 250
+keep_checkpoint: 100
 
-# Dimensionality
+#Dimension
 rnn_size: 768 #!
 word_vec_size: 768 #!
 transformer_ff: 3072 #!
@@ -102,7 +100,7 @@ share_decoder_embeddings: 'true' #!
 
 # Encoder
 encoder_type: bert #!
-enc_bert_type: bert-base-multilingual-cased #!
+enc_bert_type: bert-base-multilingual-cased  #!
 
 # Decoder
 decoder_type: bert #!
@@ -120,17 +118,17 @@ dropout: 0.1
 label_smoothing: 0.1
 
 # Optimization
-optim: bertadam #!
+optim: "bertadam"
 learning_rate: 0.00005
 warmup_steps: 5000
-batch_type: tokens
-normalization: tokens
 accum_count: 2
 batch_size: 512
 max_grad_norm: 0
 param_init: 0
 param_init_glorot: 'true'
-valid_batch_size: 64
+batch_type: tokens
+normalization: tokens
+valid_batch_size: 16
 
 average_decay: 0.0001
 
@@ -152,10 +150,7 @@ PRED_SUFFIX=# NAME_FOR_SAVING_DATA
 BATCH_SIZE=32
 DATA_TYPE=test
 
-# Although we don't use pusedo-labels and user information during inference time, 
-# we need these configs (e.g., uid, dom, and dom_cls) for code simplification.
-
-python translate.py -model ${MODEL} -src ${DATA}test.srcmt.tok -uid ${DATA}test.USER -dom ${DATA}test.10  -output ${SAVE}${DATA_TYPE}.${PRED_SUFFIX}.unprocessed  -beam_size 5 -min_length 1 -batch_size ${BATCH_SIZE} -report_time -length_penalty wu -gpu 0 -block_ngram_repeat 22 -max_length 76 -dom_cls
+python translate.py -model ${MODEL} -src ${DATA}test.srcmt.tok -uid ${DATA}test.USER -dom ${DATA}test.USER  -output ${SAVE}${DATA_TYPE}.${PRED_SUFFIX}.unprocessed  -beam_size 2 -min_length 1 -batch_size ${BATCH_SIZE} -report_time -length_penalty wu -gpu 0 -max_length 76 -dom_cls -user_bias full_bias
 
 cat ${SAVE}${DATA_TYPE}.${PRED_SUFFIX}.unprocessed | sed 's/ \#\#//g' > ${SAVE}${DATA_TYPE}.${PRED_SUFFIX}
 cat ${SAVE}${DATA_TYPE}.${PRED_SUFFIX} | sacrebleu ${DATA}test.pe.tok
