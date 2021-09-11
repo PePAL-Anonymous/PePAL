@@ -1,11 +1,11 @@
-# PePAL: Personalized Post-editing via Adversarial Learning using Cluster Label
+# Personalized Neural Machine Translation via User-generated Post-edits
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/75927860/107871432-cdd7c180-6ee4-11eb-9414-dc1d10844827.png">
+  <img src="https://user-images.githubusercontent.com/45316476/132952644-2398afa9-1f1e-456d-a064-7d7f63d1c673.png">
 </p>
-We propose PePAL, a simple yet effective model that utilizes cluster labels obtained from a pre-trained language model in an adversarial manner.
+We propose PePe, a simple-and-effective personalized translation model utilizing user-generated post-edits which is able to capture the personal style that consists of multiple attributes.
 
 ## Requirements
-Currently, our implementation for PePAL is based on [OpenNMT-APE](https://github.com/deep-spin/OpenNMT-APE). The requirements are as follows:
+Currently, our implementation for PePe is based on [OpenNMT-APE](https://github.com/deep-spin/OpenNMT-APE). The requirements are as follows:
 - Python 3
 - NumPy
 - PyTorch (version>=1.0)
@@ -18,8 +18,8 @@ Currently, our implementation for PePAL is based on [OpenNMT-APE](https://github
 
 ## Creating cluster labels using a *create-pseudo-labels.ipynb* file
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/75927860/102007748-0e914e00-3d6f-11eb-951a-22e7d13da23d.png" width=200 height=200>
-  <img src="https://user-images.githubusercontent.com/75927860/102007754-1cdf6a00-3d6f-11eb-8644-ea0865681916.png" width=200 height=200>
+  <img src="https://user-images.githubusercontent.com/45316476/132952688-309728b5-4007-41c3-be4a-b9b37ef56b09.png" width=200 height=200>
+  <img src="https://user-images.githubusercontent.com/45316476/132952691-02c856f0-5522-4861-955e-b1cbaeb48da4.png" width=200 height=200>
 </p>
 
 ## Preprocess
