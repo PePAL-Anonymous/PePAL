@@ -146,7 +146,7 @@ python train.py -config ./config/train_config2.yml
 save_model: 'SAVE_FOR_MODEL'
 log_file: 'PATH_FOR_LOG'
 data: 'PATH_FOR_DATA'
-pretrain_from: 'PEPAL_MODEL_FROM_FIRST_TRAIN'
+pretrain_from: 'PEPE_MODEL_FROM_FIRST_TRAIN'
 
 train_steps: 10000
 start_decay_steps: 10000
